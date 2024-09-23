@@ -23,8 +23,57 @@ class BinaryTree:
                 queue.append(node.right)
             i+=1
 
-    @staticmethod
-    def levelOrderTraversal(root: Optional[TreeNode]):
+    def preorder(self) -> List[int]:
+        return self._preorderTraversal(self.root)
+    
+    def _preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: 
+            return []
+        ans = [root.val]
+        ans += self._preorderTraversal(root.left)
+        ans += self._preorderTraversal(root.right)
+        return ans 
+    
+    def inorder(self) -> List[int]: 
+        return self._inorderTraversal(self.root)
+
+    def _inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: 
+            return []
+        ans = []
+        ans += self._inorderTraversal(root.left)
+        ans.append(root.val) 
+        ans += self._inorderTraversal(root.right)
+        return ans 
+    
+    def postorder(self) -> List[int]:
+        return self._postorderTraversal(self.root)
+
+    def _postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: 
+            return []
+        ans = self._postorderTraversal(root.left)
+        ans += self._postorderTraversal(root.right)
+        ans += [root.val]
+        return ans 
+
+    def levelOrder(self) -> List[List[int]]:
+        if not self.root: 
+            return []
+        queue, result = [self.root], []
+        while queue: 
+            next_queue, ans = [], []
+            for node in queue: 
+                ans.append(node.val)
+                if node.left: 
+                    next_queue.append(node.left)
+                if node.right: 
+                    next_queue.append(node.right)
+            result.append(ans)
+            queue = next_queue
+        return result 
+
+    def levelOrderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         if not root: 
             return []
         result = []
